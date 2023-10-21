@@ -13,7 +13,10 @@ const server = express()
 
 
   
-
+ const socketio = require('socket.io')
+ const httpServer = http.createServer(server)
+ const io = socketio(httpServer)
+ httpServer.listen(process.env.PORT_SOCKET)
 
   
  
@@ -39,3 +42,26 @@ const server = express()
 
 
 
+
+ io.on('connection',(socket)=>{
+    
+   console.log('conectado com sucesso') 
+
+   console.log(`⚡: ${socket.id} user just connected!`);
+
+    socket.on('disconnect', () => {
+      socket.disconnect()
+      console.log('🔥: desconectado');
+    });
+
+    socket.on('join-request',(result)=>{
+
+      console.log('testando conexao em tempo real',result.nome)
+     
+
+    })
+
+     
+
+
+ })
